@@ -1,0 +1,2244 @@
+
+/* App.css - This is the main stylesheet for the SkyGames application, featuring a premium glassmorphism design with neon accents, animations, and responsive layouts. */
+
+/* Importing Google Fonts for custom typography - Russo One for bold headings and Inter for body text. */
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;700&display=swap');
+
+/* CSS Custom Properties (Variables) - Defining color palette, gradients, shadows, and blur effects for consistent theming across the app. */
+:root {
+  /* Primary color - Dark blue for main backgrounds and text. */
+  --clr-primary: #1a1a2e;
+  /* Secondary color - Slightly lighter blue for accents. */
+  --clr-secondary: #16213e;
+  /* Accent color - Purple for highlights. */
+  --clr-accent: #533483;
+  /* Background color - Very dark for base layer. */
+  --clr-bg: #0f0f23;
+  /* Darker background variant. */
+  --clr-bg-dark: #0a0a14;
+  /* Light text color for readability. */
+  --clr-text-light: #c7c7c7;
+  /* Muted text color for secondary information. */
+  --clr-text-muted: #a0a0a0;
+  /* Neon blue for glowing effects. */
+  --clr-neon-blue: #00d4ff;
+  /* Neon purple for complementary glows. */
+  --clr-neon-purple: #9d4edd;
+  /* Charcoal color for subtle elements. */
+  --clr-charcoal: #2d2d2d;
+  /* Glass background gradient for translucent elements. */
+  --glass-bg: linear-gradient(135deg, rgba(15, 15, 35, 0.08), rgba(26, 26, 46, 0.12));
+  /* Border color for glass elements. */
+  --glass-border: rgba(26, 26, 46, 0.4);
+  /* Glowing shadow effect for depth. */
+  --shadow-glow: 0 0 12px #1a1a2e88, 0 0 30px #1a1a2e50, 0 0 60px #53348330;
+  /* Inner shadow for inset effects. */
+  --shadow-inner: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  /* Strong blur for heavy glassmorphism. */
+  --blur-strong: blur(40px);
+  /* Medium blur for moderate effects. */
+  --blur-medium: blur(25px);
+  /* Light blur for subtle enhancements. */
+  --blur-light: blur(15px);
+}
+
+/* Global styles for body and html - Setting up the base layout, background, and typography. */
+body, html {
+  /* Removing default margins and padding. */
+  margin: 0;
+  padding: 0;
+  /* Setting font family with fallbacks. */
+  font-family: 'Inter', Arial, sans-serif;
+  /* Gradient background for the entire page. */
+  background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+  /* Light text color for contrast. */
+  color: var(--clr-text-light);
+  /* Preventing text selection for a more app-like feel. */
+  user-select: none;
+  /* Ensuring full height coverage. */
+  min-height: 100vh;
+  /* Preventing horizontal overflow. */
+  overflow-x: hidden;
+  /* Establishing relative positioning for layering. */
+  position: relative;
+}
+
+/* Pseudo-element for background overlay - Adding radial gradients for ambient lighting effects. */
+body::before {
+  /* Creating a pseudo-element for the overlay. */
+  content: '';
+  /* Fixed positioning to cover the entire viewport. */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Radial gradients for subtle color spots. */
+  background: radial-gradient(circle at 20% 80%, rgba(26, 26, 46, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(83, 52, 131, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+  /* Ensuring it doesn't interfere with interactions. */
+  pointer-events: none;
+  /* Setting z-index for layering behind content. */
+  z-index: 1;
+}
+
+/* Main app container - Centering content and setting max width. */
+.app {
+  /* Limiting maximum width for large screens. */
+  max-width: 1280px;
+  /* Centering horizontally. */
+  margin: 0 auto;
+  /* Adding bottom padding for footer space. */
+  padding-bottom: 60px;
+  /* Ensuring full height. */
+  min-height: 100vh;
+  /* Using flexbox for layout. */
+  display: flex;
+  /* Vertical stacking. */
+  flex-direction: column;
+}
+
+/* Background video element - Full-screen video for immersive background. */
+.background-video {
+  /* Fixed positioning for full coverage. */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  /* Ensuring video covers the area. */
+  object-fit: cover;
+  /* Setting z-index behind content. */
+  z-index: 0;
+  /* Applying filters for color and brightness adjustment. */
+  filter: brightness(0.3) saturate(1.5) contrast(1.2) hue-rotate(240deg);
+  /* Blending mode for integration with background. */
+  mix-blend-mode: multiply;
+}
+
+/* Pseudo-element for video overlay - Adding a gradient filter over the video. */
+.background-video::after {
+  /* Creating overlay content. */
+  content: '';
+  /* Absolute positioning within video. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Gradient background for color overlay. */
+  background: linear-gradient(45deg,
+    rgba(15, 15, 35, 0.7) 0%,
+    rgba(26, 26, 46, 0.5) 25%,
+    rgba(22, 33, 62, 0.6) 50%,
+    rgba(83, 52, 131, 0.4) 75%,
+    rgba(15, 15, 35, 0.7) 100%);
+  /* Applying blur for glass effect. */
+  backdrop-filter: var(--blur-strong);
+  /* Setting z-index for layering. */
+  z-index: 1;
+}
+
+/* Header section - Styling the top navigation area. */
+.header {
+  /* Relative positioning for z-index control. */
+  position: relative;
+  /* High z-index to stay above background. */
+  z-index: 10;
+  /* Dark background for header. */
+  background: var(--clr-bg-dark);
+  /* Bottom border for separation. */
+  border-bottom: 3px solid #192947;
+  /* Box shadow for depth. */
+  box-shadow: 0 2px 8px rgba(44, 66, 116, 0.7);
+}
+
+/* Navigation bar - Main navigation container. */
+.nav {
+  /* Flexbox for horizontal layout. */
+  display: flex;
+  /* Spacing between logo and links. */
+  justify-content: space-between;
+  /* Vertical centering. */
+  align-items: center;
+  /* Fixed height. */
+  height: 80px;
+  /* Horizontal padding. */
+  padding: 0 60px;
+  /* Text color. */
+  color: var(--clr-primary);
+  /* Blur effect for glassmorphism. */
+  backdrop-filter: var(--blur-strong);
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(15, 15, 35, 0.15) 0%,
+    rgba(26, 26, 46, 0.18) 50%,
+    rgba(15, 15, 35, 0.15) 100%);
+  /* Bottom border. */
+  border-bottom: 2px solid var(--glass-border);
+  /* Multiple shadows for glow effect. */
+  box-shadow: var(--shadow-inner),
+              0 0 60px rgba(26, 26, 46, 0.4),
+              0 0 120px rgba(83, 52, 131, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Relative positioning. */
+  position: relative;
+  /* High z-index. */
+  z-index: 10;
+  /* Hidden overflow for pseudo-elements. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for navigation glow - Animated background effect. */
+.nav::before {
+  /* Creating glow content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Conic gradient for rotating glow. */
+  background: conic-gradient(from 0deg at 50% 50%,
+    rgba(0, 212, 255, 0.03) 0deg,
+    rgba(157, 78, 221, 0.05) 120deg,
+    rgba(0, 212, 255, 0.03) 240deg,
+    transparent 360deg);
+  /* Alternating animation. */
+  animation: navGlow 8s ease-in-out infinite alternate;
+  /* No interaction. */
+  pointer-events: none;
+  /* Behind content. */
+  z-index: -1;
+}
+
+/* Keyframe for navigation glow animation - Alternating opacity. */
+@keyframes navGlow {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
+}
+
+/* Logo styling - Custom font and effects for the brand name. */
+.logo {
+  /* Bold font family. */
+  font-family: 'Russo One', sans-serif;
+  /* Large font size. */
+  font-size: 3.8rem;
+  /* Heavy font weight. */
+  font-weight: 900;
+  /* Wide letter spacing. */
+  letter-spacing: 8px;
+  /* Light text color. */
+  color: var(--clr-text-light);
+  /* Text shadow for glow. */
+  text-shadow: 0 0 40px var(--clr-neon-blue),
+               0 0 80px var(--clr-neon-purple),
+               0 0 120px var(--clr-neon-blue),
+               0 0 160px var(--clr-neon-purple);
+  /* Gradient background for text. */
+  background: linear-gradient(135deg,
+    var(--clr-neon-blue) 0%,
+    var(--clr-neon-purple) 25%,
+    var(--clr-text-light) 50%,
+    var(--clr-neon-blue) 75%,
+    var(--clr-neon-purple) 100%);
+  /* Size for animation. */
+  background-size: 200% 200%;
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Relative positioning. */
+  position: relative;
+  /* High z-index. */
+  z-index: 2;
+  /* Smooth transitions. */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Gradient animation. */
+  animation: logoGradient 6s ease-in-out infinite alternate;
+  /* Cursor pointer. */
+  cursor: pointer;
+}
+
+/* Pseudo-element for logo glow - Background blur effect. */
+.logo::before {
+  /* Glow content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.3) 0%,
+    rgba(157, 78, 221, 0.4) 50%,
+    rgba(0, 212, 255, 0.3) 100%);
+  /* Blur filter. */
+  filter: blur(25px);
+  /* Initial opacity. */
+  opacity: 0.8;
+  /* Behind text. */
+  z-index: -1;
+  /* Pulse animation. */
+  animation: logoPulse 5s ease-in-out infinite alternate;
+  /* Rounded corners. */
+  border-radius: 20px;
+}
+
+/* Pseudo-element for logo inner glow - Additional layered effect. */
+.logo::after {
+  /* Inner glow content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    var(--clr-neon-blue) 0%,
+    var(--clr-neon-purple) 50%,
+    var(--clr-neon-blue) 100%);
+  /* Low opacity. */
+  opacity: 0.15;
+  /* Blur filter. */
+  filter: blur(20px);
+  /* Behind text. */
+  z-index: -1;
+  /* Glow animation. */
+  animation: logoGlow 4s ease-in-out infinite alternate;
+}
+
+/* Logo hover state - Enhanced glow and scale. */
+.logo:hover {
+  /* Scale up. */
+  transform: scale(1.02);
+  /* Intensified text shadow. */
+  text-shadow: 0 0 50px var(--clr-neon-blue),
+               0 0 100px var(--clr-neon-purple),
+               0 0 150px var(--clr-neon-blue),
+               0 0 200px var(--clr-neon-purple);
+}
+
+/* Logo hover pseudo-element - Increased opacity. */
+.logo:hover::before {
+  opacity: 1;
+  filter: blur(30px);
+}
+
+/* Keyframe for logo gradient animation - Shifting background position. */
+@keyframes logoGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Keyframe for logo glow animation - Alternating opacity and blur. */
+@keyframes logoGlow {
+  0% {
+    opacity: 0.1;
+    filter: blur(15px);
+  }
+  100% {
+    opacity: 0.2;
+    filter: blur(25px);
+  }
+}
+
+/* Keyframe for logo pulse animation - Scaling and opacity changes. */
+@keyframes logoPulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Navigation links container - Styling the menu items. */
+.nav-links {
+  /* Flexbox for horizontal layout. */
+  display: flex;
+  /* Spacing between links. */
+  gap: 36px;
+  /* Removing default list styling. */
+  list-style: none;
+  /* Bold font weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1.1rem;
+  /* Letter spacing. */
+  letter-spacing: 2px;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Smooth transitions. */
+  transition: all 0.3s ease;
+}
+
+/* Individual navigation links - Styling anchor tags. */
+.nav-links a {
+  /* Light text color. */
+  color: var(--clr-text-light);
+  /* Removing underline. */
+  text-decoration: none;
+  /* Color transition. */
+  transition: color 0.3s ease;
+}
+
+/* Navigation links hover state - Color and glow effects. */
+.nav-links a:hover {
+  /* Neon blue color. */
+  color: var(--clr-neon-blue);
+  /* Text shadow for glow. */
+  text-shadow: 0 0 20px var(--clr-neon-blue),
+               0 0 40px var(--clr-neon-purple),
+               0 0 60px var(--clr-neon-blue);
+  /* Slight scale and translate. */
+  transform: translateY(-2px) scale(1.05);
+  /* Background gradient. */
+  background: linear-gradient(45deg,
+    rgba(0, 212, 255, 0.1) 0%,
+    rgba(157, 78, 221, 0.1) 100%);
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Relative positioning. */
+  position: relative;
+}
+
+/* Pseudo-element for navigation link underline - Animated bottom border. */
+.nav-links a:hover::before {
+  /* Underline content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  /* Gradient background. */
+  background: linear-gradient(90deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Rounded corners. */
+  border-radius: 1px;
+  /* Glow shadow. */
+  box-shadow: 0 0 10px var(--clr-neon-blue);
+}
+
+/* Navigation list items hover - Color change. */
+.nav-links li:hover {
+  color: var(--clr-secondary);
+  text-shadow: var(--shadow-glow);
+  transition: color 0.3s ease;
+}
+
+/* Open state for navigation links - Mobile menu display. */
+.nav-links.open {
+  /* Flex display. */
+  display: flex;
+  /* Vertical stacking. */
+  flex-direction: column;
+  /* Absolute positioning. */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  /* Glass background. */
+  background: var(--glass-bg);
+  /* Blur filter. */
+  backdrop-filter: blur(20px);
+  /* Bottom border. */
+  border-bottom: 1px solid var(--glass-border);
+  /* Padding. */
+  padding: 20px;
+  /* Gap between items. */
+  gap: 20px;
+}
+
+/* Navigation icons container - Flexbox for icon buttons. */
+.nav-icons {
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 14px;
+  /* Vertical centering. */
+  align-items: center;
+}
+
+/* Icon button styling - Circular buttons for actions. */
+.icon-btn {
+  /* Glass background. */
+  background: var(--glass-bg);
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Circular shape. */
+  border-radius: 50%;
+  /* Size. */
+  width: 40px;
+  height: 40px;
+  /* Flexbox centering. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Smooth transitions. */
+  transition: all 0.3s ease;
+  /* Blur filter. */
+  backdrop-filter: blur(10px);
+  /* Inner shadow. */
+  box-shadow: var(--shadow-inner);
+}
+
+/* Icon button hover state - Gradient background and glow. */
+.icon-btn:hover {
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Glow shadow. */
+  box-shadow: 0 0 25px var(--clr-neon-blue), 0 0 50px var(--clr-neon-purple);
+  /* Scale and rotate. */
+  transform: scale(1.1) rotate(5deg);
+  /* Neon border. */
+  border-color: var(--clr-neon-blue);
+}
+
+/* Icon button focus state - Outline for accessibility. */
+.icon-btn:focus {
+  outline: none;
+  box-shadow: 0 0 20px var(--clr-primary), 0 0 40px var(--clr-secondary);
+}
+
+/* Cart button container - Relative for badge positioning. */
+.cart-btn {
+  position: relative;
+}
+
+/* Cart badge - Notification indicator. */
+.cart-badge {
+  /* Absolute positioning. */
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* White text. */
+  color: white;
+  /* Circular shape. */
+  border-radius: 50%;
+  /* Size. */
+  width: 20px;
+  height: 20px;
+  /* Flexbox centering. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Font size. */
+  font-size: 0.8rem;
+  /* Bold weight. */
+  font-weight: bold;
+  /* Glow shadow. */
+  box-shadow: 0 0 15px var(--clr-neon-purple), 0 0 30px var(--clr-neon-blue);
+  /* Pulse animation. */
+  animation: pulse 2s infinite;
+}
+
+/* Keyframe for pulse animation - Scaling effect. */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Hamburger menu - Mobile navigation toggle. */
+.hamburger {
+  /* Hidden by default. */
+  display: none;
+  /* Vertical stacking. */
+  flex-direction: column;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Spacing. */
+  gap: 4px;
+  /* Padding. */
+  padding: 8px;
+  /* Rounded corners. */
+  border-radius: 4px;
+  /* Smooth transitions. */
+  transition: all 0.3s ease;
+}
+
+/* Hamburger spans - The three lines. */
+.hamburger span {
+  /* Width. */
+  width: 25px;
+  /* Height. */
+  height: 3px;
+  /* Background color. */
+  background: var(--clr-text-light);
+  /* Smooth transitions. */
+  transition: all 0.3s ease;
+}
+
+/* Hamburger hover - Color change. */
+.hamburger:hover span {
+  background: var(--clr-secondary);
+}
+
+/* Hero section - Main banner area. */
+.hero {
+  /* Margins for spacing. */
+  margin: 48px 80px 80px 80px;
+  /* Glass background gradient. */
+  background: linear-gradient(135deg,
+    rgba(15, 15, 35, 0.12) 0%,
+    rgba(26, 26, 46, 0.15) 25%,
+    rgba(22, 33, 62, 0.18) 50%,
+    rgba(83, 52, 131, 0.12) 75%,
+    rgba(15, 15, 35, 0.12) 100%);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-strong);
+  /* Rounded corners. */
+  border-radius: 40px;
+  /* Padding. */
+  padding: 64px 80px;
+  /* Flexbox layout. */
+  display: flex;
+  /* Vertical centering. */
+  align-items: center;
+  /* Spacing. */
+  gap: 64px;
+  /* Multiple shadows for depth. */
+  box-shadow: var(--shadow-inner),
+              0 0 80px rgba(26, 26, 46, 0.5),
+              0 0 160px rgba(83, 52, 131, 0.3),
+              0 0 240px rgba(0, 212, 255, 0.1);
+  /* Border. */
+  border: 2px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for hero rotating effect - Animated conic gradient. */
+.hero::before {
+  /* Rotating content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  /* Conic gradient. */
+  background: conic-gradient(from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(0, 212, 255, 0.08) 45deg,
+    rgba(157, 78, 221, 0.12) 90deg,
+    rgba(0, 212, 255, 0.08) 135deg,
+    rgba(157, 78, 221, 0.12) 180deg,
+    rgba(0, 212, 255, 0.08) 225deg,
+    rgba(157, 78, 221, 0.12) 270deg,
+    transparent 315deg);
+  /* Rotation animation. */
+  animation: heroRotate 25s linear infinite;
+  /* No interaction. */
+  pointer-events: none;
+  /* Behind content. */
+  z-index: -1;
+}
+
+/* Pseudo-element for hero radial overlay - Additional gradient. */
+.hero::after {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Radial gradients. */
+  background: radial-gradient(circle at 30% 70%,
+    rgba(0, 212, 255, 0.05) 0%,
+    transparent 50%),
+  radial-gradient(circle at 70% 30%,
+    rgba(157, 78, 221, 0.05) 0%,
+    transparent 50%);
+  /* No interaction. */
+  pointer-events: none;
+  /* Behind content. */
+  z-index: -1;
+}
+
+/* Keyframe for hero rotation - Continuous rotation. */
+@keyframes heroRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Unused keyframe - Possibly for other rotations. */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Hero heading - Main title styling. */
+.hero h1 {
+  /* Bold font family. */
+  font-family: 'Russo One', sans-serif;
+  /* Large font size. */
+  font-size: 5.5rem;
+  /* Heavy weight. */
+  font-weight: 900;
+  /* Light color. */
+  color: var(--clr-text-light);
+  /* Wide spacing. */
+  letter-spacing: 8px;
+  /* Margins. */
+  margin: 0 0 16px 0;
+  /* Text shadow. */
+  text-shadow: 0 0 40px var(--clr-neon-blue),
+               0 0 80px var(--clr-neon-purple),
+               0 0 120px var(--clr-neon-blue);
+  /* Gradient background. */
+  background: linear-gradient(45deg,
+    var(--clr-neon-blue) 0%,
+    var(--clr-neon-purple) 30%,
+    var(--clr-text-light) 60%,
+    var(--clr-neon-blue) 90%);
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Relative positioning. */
+  position: relative;
+  /* High z-index. */
+  z-index: 2;
+  /* Line height. */
+  line-height: 1.1;
+}
+
+/* Pseudo-element for hero title glow - Blurred duplicate. */
+.hero h1::before {
+  /* Glow text. */
+  content: 'SKYGAMES';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(45deg,
+    var(--clr-neon-blue),
+    var(--clr-neon-purple));
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Low opacity. */
+  opacity: 0.3;
+  /* Blur filter. */
+  filter: blur(3px);
+  /* Behind text. */
+  z-index: -1;
+  /* Glow animation. */
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+/* Keyframe for title glow - Alternating opacity. */
+@keyframes titleGlow {
+  0% { opacity: 0.2; }
+  100% { opacity: 0.4; }
+}
+
+/* Hero subtitle - Secondary text. */
+.hero-subtitle {
+  /* Font size. */
+  font-size: 1.4rem;
+  /* Medium weight. */
+  font-weight: 500;
+  /* Muted color. */
+  color: var(--clr-text-muted);
+  /* Bottom margin. */
+  margin-bottom: 32px;
+  /* Text shadow. */
+  text-shadow: 0 0 20px var(--clr-neon-blue), 0 0 40px var(--clr-neon-purple);
+  /* Letter spacing. */
+  letter-spacing: 1.5px;
+  /* Line height. */
+  line-height: 1.7;
+  /* Max width. */
+  max-width: 600px;
+  /* Relative positioning. */
+  position: relative;
+  /* High z-index. */
+  z-index: 2;
+}
+
+/* Pseudo-element for subtitle underline - Decorative line. */
+.hero-subtitle::before {
+  /* Line content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  /* Gradient background. */
+  background: linear-gradient(90deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Rounded corners. */
+  border-radius: 1px;
+  /* Glow shadow. */
+  box-shadow: 0 0 10px var(--clr-neon-blue);
+}
+
+/* Hero title span - Accent color for part of text. */
+.hero h1 span {
+  color: var(--clr-accent);
+  text-shadow: 0 0 24px var(--clr-accent);
+}
+
+/* Hero buttons container - Call-to-action buttons. */
+.hero-buttons {
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 32px;
+  /* Wrapping. */
+  flex-wrap: wrap;
+}
+
+/* Hero buttons - Individual button styling. */
+.hero-buttons button {
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* No border. */
+  border: none;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1.3rem;
+  /* Letter spacing. */
+  letter-spacing: 2px;
+  /* Padding. */
+  padding: 18px 50px;
+  /* Rounded corners. */
+  border-radius: 36px;
+  /* White text. */
+  color: white;
+  /* Glow shadow. */
+  box-shadow: 0 0 30px var(--clr-neon-blue), 0 0 60px var(--clr-neon-purple);
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for button shine - Animated highlight. */
+.hero-buttons button::before {
+  /* Shine content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Shine gradient. */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  /* Transition. */
+  transition: left 0.5s;
+}
+
+/* Button hover shine trigger. */
+.hero-buttons button:hover::before {
+  left: 100%;
+}
+
+/* Button hover state - Enhanced effects. */
+.hero-buttons button:hover {
+  /* Reversed gradient. */
+  background: linear-gradient(135deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Intensified shadow. */
+  box-shadow: 0 0 40px var(--clr-neon-purple), 0 0 80px var(--clr-neon-blue);
+  /* Scale and translate. */
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Button focus state - Outline for accessibility. */
+.hero-buttons button:focus {
+  outline: none;
+  box-shadow: 0 0 44px var(--clr-secondary), 0 0 20px var(--clr-accent);
+}
+
+/* Hero image - Main visual element. */
+.hero-image {
+  /* Flex sizing. */
+  flex: 1;
+  /* Min width. */
+  min-width: 420px;
+  /* Height. */
+  height: 280px;
+  /* Background image. */
+  background-image: url("src/5.jpeg");
+  /* Cover sizing. */
+  background-size: cover;
+  /* Center positioning. */
+  background-position: center;
+  /* Rounded corners. */
+  border-radius: 35px;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner),
+              0 0 60px rgba(26, 26, 46, 0.6),
+              0 0 120px rgba(83, 52, 131, 0.4),
+              0 0 180px rgba(0, 212, 255, 0.2);
+  /* Filters for enhancement. */
+  filter: drop-shadow(0 16px 20px rgba(15, 15, 35, 0.9))
+          brightness(0.95) contrast(1.15) saturate(1.1);
+  /* No selection. */
+  user-select: none;
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 2px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+  /* Smooth transitions. */
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pseudo-element for image overlay - Gradient on hover. */
+.hero-image::before {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.08) 0%,
+    rgba(157, 78, 221, 0.12) 50%,
+    rgba(0, 212, 255, 0.08) 100%);
+  /* Initial opacity. */
+  opacity: 0;
+  /* Smooth transition. */
+  transition: opacity 0.6s ease;
+}
+
+/* Pseudo-element for image rotation - Animated conic gradient. */
+.hero-image::after {
+  /* Rotation content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  /* Conic gradient. */
+  background: conic-gradient(from 0deg,
+    transparent 0deg,
+    rgba(0, 212, 255, 0.05) 90deg,
+    rgba(157, 78, 221, 0.08) 180deg,
+    rgba(0, 212, 255, 0.05) 270deg,
+    transparent 360deg);
+  /* Rotation animation. */
+  animation: imageRotate 30s linear infinite;
+  /* No interaction. */
+  pointer-events: none;
+  /* Layering. */
+  z-index: 1;
+}
+
+/* Image hover overlay trigger. */
+.hero-image:hover::before {
+  opacity: 0.6;
+}
+
+/* Image hover state - Scale, rotation, enhanced shadows. */
+.hero-image:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 25px 50px rgba(26, 26, 46, 0.7),
+              0 0 140px rgba(83, 52, 131, 0.5),
+              0 0 200px rgba(0, 212, 255, 0.3);
+  filter: drop-shadow(0 20px 25px rgba(15, 15, 35, 1))
+          brightness(1) contrast(1.2) saturate(1.2);
+}
+
+/* Keyframe for image rotation - Continuous rotation. */
+@keyframes imageRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* News section - Information panel. */
+.news {
+  /* Margins. */
+  margin: 0 60px 60px 60px;
+  /* Glass background. */
+  background: var(--glass-bg);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-strong);
+  /* Rounded corners. */
+  border-radius: 28px;
+  /* Padding. */
+  padding: 46px 60px 48px 60px;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 0 60px rgba(26, 26, 46, 0.4), 0 0 120px rgba(83, 52, 131, 0.2);
+  /* Light text. */
+  color: var(--clr-text-light);
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for news top border - Gradient line. */
+.news::before {
+  /* Border content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  /* Gradient background. */
+  background: linear-gradient(90deg, var(--clr-neon-blue), var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Low opacity. */
+  opacity: 0.6;
+}
+
+/* News heading - Section title. */
+.news h2 {
+  /* Bold weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1.6rem;
+  /* Letter spacing. */
+  letter-spacing: 1.8px;
+  /* Light color. */
+  color: var(--clr-text-light);
+  /* Bottom margin. */
+  margin-bottom: 22px;
+  /* Text shadow. */
+  text-shadow: 0 0 20px var(--clr-neon-blue);
+  /* Gradient background. */
+  background: linear-gradient(45deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* News paragraph - Description text. */
+.news p {
+  /* Medium weight. */
+  font-weight: 500;
+  /* Font size. */
+  font-size: 1.04rem;
+  /* Line height. */
+  line-height: 1.55;
+  /* Bottom margin. */
+  margin-bottom: 44px;
+}
+
+/* News button - Call-to-action. */
+.news button {
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Padding. */
+  padding: 14px 38px;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1.05rem;
+  /* Rounded corners. */
+  border-radius: 36px;
+  /* No border. */
+  border: none;
+  /* White text. */
+  color: white;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Glow shadow. */
+  box-shadow: 0 0 25px var(--clr-neon-blue), 0 0 50px var(--clr-neon-purple);
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* No selection. */
+  user-select: none;
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for news button shine - Animated highlight. */
+.news button::before {
+  /* Shine content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Shine gradient. */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  /* Transition. */
+  transition: left 0.6s;
+}
+
+/* Button hover shine trigger. */
+.news button:hover::before {
+  left: 100%;
+}
+
+/* News button hover state - Enhanced effects. */
+.news button:hover {
+  /* Reversed gradient. */
+  background: linear-gradient(135deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Intensified shadow. */
+  box-shadow: 0 0 35px var(--clr-neon-purple), 0 0 70px var(--clr-neon-blue);
+  /* Scale and translate. */
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* News button focus state - Outline for accessibility. */
+.news button:focus {
+  outline: none;
+  box-shadow: 0 0 46px var(--clr-secondary), 0 0 20px var(--clr-accent);
+}
+
+/* News images container - Grid of images. */
+.news-images {
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 20px;
+  /* Centering. */
+  justify-content: center;
+}
+
+/* News images - Individual image styling. */
+.news-images img {
+  /* Rounded corners. */
+  border-radius: 20px;
+  /* Size. */
+  width: 160px;
+  height: 120px;
+  /* Cover sizing. */
+  object-fit: cover;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 0 30px rgba(26, 26, 46, 0.4), 0 0 60px rgba(83, 52, 131, 0.2);
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Smooth transitions. */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for image overlay - Gradient on hover. */
+.news-images img::before {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.1) 0%,
+    rgba(157, 78, 221, 0.1) 100%);
+  /* Initial opacity. */
+  opacity: 0;
+  /* Smooth transition. */
+  transition: opacity 0.5s ease;
+}
+
+/* Image hover state - Scale, rotation, enhanced effects. */
+.news-images img:hover {
+  transform: scale(1.08) rotate(2deg);
+  filter: brightness(1.2) contrast(1.1);
+  box-shadow: 0 0 40px var(--clr-neon-blue), 0 0 80px var(--clr-neon-purple);
+}
+
+/* Image hover overlay trigger. */
+.news-images img:hover::before {
+  opacity: 1;
+}
+
+/* Store section - Product showcase. */
+.store {
+  /* Margins. */
+  margin: 0 60px 90px 60px;
+}
+
+/* Store heading - Section title. */
+.store h2 {
+  /* Font size. */
+  font-size: 1.5rem;
+  /* Primary color. */
+  color: var(--clr-primary);
+  /* Bottom margin. */
+  margin-bottom: 36px;
+  /* Letter spacing. */
+  letter-spacing: 1.3px;
+  /* Medium weight. */
+  font-weight: 600;
+}
+
+
+
+/*_______________________________________________________________________________________________________________________*/
+/* Featured games container - Grid layout. */
+.featured-games {
+  /* CSS Grid. */
+  display: grid;
+  /* Auto-fit columns. */
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  /* Spacing. */
+  gap: 32px;
+}
+/*OH FINALLY FOUND IT MAN THIS THING BASICALLY IS THE THING THAT CONTROLS THE CARD GEOMETRY SOO YEAHH*/
+/* Featured game card - Individual product. */
+.featured-game {
+  /* Fixed height */
+  height: 600px;
+
+  /* Glass background */
+  background: var(--glass-bg);
+  /* Blur effect */
+  backdrop-filter: var(--blur-strong);
+  /* Rounded corners */
+  border-radius: 28px;
+
+  /* Padding inside the card */
+  padding: 24px 16px;
+
+  /* Text color */
+  color: var(--clr-text-light);
+
+  /* Flex layout for inner content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* top-align content */
+
+  /* Prevent text selection */
+  user-select: none;
+
+  /* Smooth transitions */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border */
+  border: 1px solid var(--glass-border);
+
+  /* Layering */
+  position: relative;
+  z-index: 1;
+
+  /* Prevent overflow */
+  overflow: hidden;
+
+  /* Optional shadow for depth */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/*-----------------*/
+/* Pseudo-element for featured game hover - Background overlay. */
+.featured-game::before {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.05) 0%,
+    rgba(157, 78, 221, 0.05) 50%,
+    rgba(0, 212, 255, 0.05) 100%);
+  /* Initial opacity. */
+  opacity: 0;
+  /* Smooth transition. */
+  transition: opacity 0.5s ease;
+  /* Behind content. */
+  z-index: -1;
+}
+
+/* Featured game hover state - Lift and glow. */
+.featured-game:hover {
+  /* Translate and scale. */
+  transform: translateY(-10px) scale(1.05) rotate(1deg);
+  /* Enhanced shadows. */
+  box-shadow: 0 30px 80px rgba(26, 26, 46, 0.4), 0 0 120px rgba(83, 52, 131, 0.3);
+}
+
+/* Featured game hover overlay trigger. */
+.featured-game:hover::before {
+  opacity: 1;
+}
+
+
+
+
+/*ohellYEAH*/
+/* Featured game image - Product image. */
+.featured-game img {
+  /* Width. */
+  width: 100%;
+  /* Max width. */
+  max-width: 160px;
+  /* Height. */
+  height: 400px;
+  /* Cover sizing. */
+  object-fit: cover;
+  /* Rounded corners. */
+  border-radius: 18px;
+  /* Bottom margin. */
+  margin-bottom: 16px;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 0 30px rgba(26, 26, 46, 0.4), 0 0 60px rgba(83, 52, 131, 0.2);
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Relative positioning. */
+  position: relative;
+  /* High z-index. */
+  z-index: 1;
+}
+
+/* Featured game image hover - Scale and glow. */
+.featured-game img:hover {
+  /* Scale and rotate. */
+  transform: scale(1.08) rotate(-2deg);
+  /* Glow shadows. */
+  box-shadow: 0 0 40px var(--clr-neon-blue), 0 0 80px var(--clr-neon-purple);
+  /* Brightness and contrast. */
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Featured label - "Featured" badge. */
+.featured-label {
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Padding. */
+  padding: 6px 28px;
+  /* Rounded corners. */
+  border-radius: 22px;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1rem;
+  /* White text. */
+  color: white;
+  /* Bottom margin. */
+  margin-bottom: 18px;
+  /* Glow shadows. */
+  box-shadow: 0 0 25px var(--clr-neon-blue), 0 0 50px var(--clr-neon-purple);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for featured label shimmer - Animated shine. */
+.featured-label::before {
+  /* Shine content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Shine gradient. */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  /* Shimmer animation. */
+  animation: shimmer 3s infinite;
+}
+
+/* Keyframe for shimmer animation - Moving shine. */
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Featured game paragraph - Description text. */
+.featured-game p {
+  /* Font size. */
+  font-size: 0.93rem;
+  /* Specific color. */
+  color: #9db9ffcc;
+  /* Center alignment. */
+  text-align: center;
+  /* Bottom margin. */
+  margin-bottom: 15px;
+  /* Flex grow. */
+  flex-grow: 1;
+}
+
+/* Featured game span - Price or info. */
+.featured-game span {
+  /* Bold weight. */
+  font-weight: 600;
+  /* Specific color. */
+  color: var(--clr-primary-light);
+  /* Font size. */
+  font-size: 0.9rem;
+  /* Bottom margin. */
+  margin-bottom: 10px;
+}
+
+/* Featured game button - Buy or action button. */
+.featured-game button {
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* White text. */
+  color: white;
+  /* Padding. */
+  padding: 10px 32px;
+  /* Rounded corners. */
+  border-radius: 24px;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Font size. */
+  font-size: 1rem;
+  /* No border. */
+  border: none;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Letter spacing. */
+  letter-spacing: 1px;
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  /* Glow shadows. */
+  box-shadow: 0 0 20px var(--clr-neon-blue), 0 0 40px var(--clr-neon-purple);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for featured button shine - Animated highlight. */
+.featured-game button::before {
+  /* Shine content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Shine gradient. */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  /* Transition. */
+  transition: left 0.5s;
+}
+
+/* Featured button hover state - Enhanced effects. */
+.featured-game button:hover {
+  /* Reversed gradient. */
+  background: linear-gradient(135deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Intensified shadows. */
+  box-shadow: 0 0 30px var(--clr-neon-purple), 0 0 60px var(--clr-neon-blue);
+  /* Scale and translate. */
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Featured button hover shine trigger. */
+.featured-game button:hover::before {
+  left: 100%;
+}
+
+/* Featured button focus state - Outline for accessibility. */
+.featured-game button:focus {
+  outline: none;
+  box-shadow: 0 0 30px var(--clr-secondary), 0 0 20px var(--clr-accent);
+}
+
+
+
+
+/*______________________________________________________________________________________________________*/
+/* Bottom games container - Additional games section. */
+.bottom-games {
+  /* Top margin. */
+  margin-top: 48px;
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 26px;
+  /* Wrapping. */
+  flex-wrap: wrap;
+  /* Centering. */
+  justify-content: center;
+}
+
+/* Bottom game item - Individual game. */
+.bottom-game {
+  /* Width. */
+  width: 140px;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Center alignment. */
+  text-align: center;
+  /* Light text. */
+  color: var(--clr-text-light);
+  /* No selection. */
+  user-select: none;
+}
+
+/* Bottom game image container - Background image. */
+.bottom-game-image {
+  /* Width. */
+  width: 100%;
+  /* Height. */
+  height: 90px;
+  /* Rounded corners. */
+  border-radius: 24px;
+  /* Background position. */
+  background-position: center;
+  /* Background size. */
+  background-size: cover;
+  /* Relative positioning. */
+  position: relative;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 10px 40px rgba(26, 26, 46, 0.4), 0 0 80px rgba(83, 52, 131, 0.2);
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for bottom game overlay - Gradient on hover. */
+.bottom-game-image::before {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.1) 0%,
+    rgba(157, 78, 221, 0.1) 100%);
+  /* Initial opacity. */
+  opacity: 0;
+  /* Smooth transition. */
+  transition: opacity 0.4s ease;
+}
+
+/* Bottom game image hover - Scale and glow. */
+.bottom-game-image:hover {
+  /* Enhanced shadows. */
+  box-shadow: 0 15px 50px var(--clr-neon-blue), 0 0 100px var(--clr-neon-purple);
+  /* Scale and rotate. */
+  transform: scale(1.06) rotate(1deg);
+}
+
+/* Bottom game image hover overlay trigger. */
+.bottom-game-image:hover::before {
+  opacity: 1;
+}
+
+/* Discount badge - Positioned on image. */
+.discount {
+  /* Absolute positioning. */
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  /* Gradient background. */
+  background: linear-gradient(45deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Font size. */
+  font-size: 0.87rem;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Padding. */
+  padding: 4px 10px;
+  /* Rounded corners. */
+  border-radius: 14px;
+  /* No selection. */
+  user-select: none;
+  /* White text. */
+  color: white;
+  /* Text shadow. */
+  text-shadow: 0 0 10px var(--clr-neon-purple);
+  /* Glow shadows. */
+  box-shadow: 0 0 15px var(--clr-neon-purple), 0 0 30px var(--clr-neon-blue);
+  /* Pulse animation. */
+  animation: discountPulse 2s infinite alternate;
+}
+
+/* Keyframe for discount pulse - Scaling. */
+@keyframes discountPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* Bottom game paragraph - Game title. */
+.bottom-game p {
+  /* Top margin. */
+  margin-top: 8px;
+  /* Bold weight. */
+  font-weight: 600;
+  /* Font size. */
+  font-size: 1rem;
+  /* No selection. */
+  user-select: none;
+}
+
+/* Product Description Section - Detailed product info. */
+.product-description {
+  /* Glass background. */
+  background: var(--glass-bg);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-strong);
+  /* Padding. */
+  padding: 54px 64px;
+  /* Margins. */
+  margin: 0 auto 70px;
+  /* Rounded corners. */
+  border-radius: 36px;
+  /* Max width. */
+  max-width: 1200px;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 0 80px rgba(26, 26, 46, 0.4), 0 0 160px rgba(83, 52, 131, 0.2);
+  /* Light text. */
+  color: var(--clr-text-light);
+  /* No selection. */
+  user-select: none;
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for product description top border - Gradient line. */
+.product-description::before {
+  /* Border content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  /* Gradient background. */
+  background: linear-gradient(90deg, var(--clr-neon-blue), var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Low opacity. */
+  opacity: 0.8;
+}
+
+/* Product description heading - Section title. */
+.product-description h2 {
+  /* Font size. */
+  font-size: 2rem;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Letter spacing. */
+  letter-spacing: 1.5px;
+  /* Specific color. */
+  color: var(--clr-primary-light);
+  /* Bottom margin. */
+  margin-bottom: 36px;
+}
+
+/* Product main container - Flex layout for image and info. */
+.product-main {
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 48px;
+  /* Wrapping. */
+  flex-wrap: wrap;
+  /* Vertical centering. */
+  align-items: center;
+  /* Centering. */
+  justify-content: center;
+}
+
+/* Product main image - Large product image. */
+.product-main-image {
+  /* Width. */
+  width: 320px;
+  /* Height. */
+  height: 335px;
+  /* Rounded corners. */
+  border-radius: 36px;
+  /* Cover sizing. */
+  object-fit: cover;
+  /* Multiple shadows. */
+  box-shadow: var(--shadow-inner), 0 20px 60px rgba(26, 26, 46, 0.4), 0 0 120px rgba(83, 52, 131, 0.2);
+  /* Smooth transitions. */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid var(--glass-border);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for product image overlay - Gradient on hover. */
+.product-main-image::before {
+  /* Overlay content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Gradient background. */
+  background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.1) 0%,
+    rgba(157, 78, 221, 0.1) 50%,
+    rgba(0, 212, 255, 0.1) 100%);
+  /* Initial opacity. */
+  opacity: 0;
+  /* Smooth transition. */
+  transition: opacity 0.5s ease;
+}
+
+/* Product main image hover - Scale and glow. */
+.product-main-image:hover {
+  /* Scale and rotate. */
+  transform: scale(1.05) rotate(2deg);
+  /* Enhanced shadows. */
+  box-shadow: 0 25px 70px var(--clr-neon-blue), 0 0 140px var(--clr-neon-purple);
+  /* Brightness and contrast. */
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Product main image hover overlay trigger. */
+.product-main-image:hover::before {
+  opacity: 1;
+}
+
+/* Product info - Text content. */
+.product-info {
+  /* Flex grow. */
+  flex: 1;
+  /* Font size. */
+  font-size: 1.1rem;
+  /* Line height. */
+  line-height: 1.7;
+  /* Medium weight. */
+  font-weight: 500;
+  /* Right padding. */
+  padding-right: 20px;
+  /* Specific color. */
+  color: var(--clr-text-lighter);
+  /* Text selection. */
+  user-select: text;
+}
+
+/* Product info heading - Sub-title. */
+.product-info h3 {
+  /* Heavy weight. */
+  font-weight: 800;
+  /* Font size. */
+  font-size: 1.85rem;
+  /* Letter spacing. */
+  letter-spacing: 1.4px;
+  /* Bottom margin. */
+  margin-bottom: 34px;
+  /* Primary color. */
+  color: var(--clr-primary);
+}
+
+/* Product info paragraph - Description. */
+.product-info p {
+  /* Bottom margin. */
+  margin-bottom: 28px;
+}
+
+/* Product info unordered list - Feature list. */
+.product-info ul {
+  /* No styling. */
+  list-style: none;
+  /* Padding. */
+  padding: 0;
+  /* Margins. */
+  margin: 0 0 38px 0;
+  /* Specific color. */
+  color: #aec7ffcc;
+}
+
+/* Product info list items - Individual features. */
+.product-info ul li {
+  /* Bottom margin. */
+  margin-bottom: 10px;
+  /* Bold weight. */
+  font-weight: 600;
+}
+
+/* Price and buy section - Price display and button. */
+.price-buy-section {
+  /* Flexbox layout. */
+  display: flex;
+  /* Vertical centering. */
+  align-items: center;
+  /* Spacing. */
+  gap: 30px;
+}
+
+/* Price - Product price. */
+.price {
+  /* Font size. */
+  font-size: 2rem;
+  /* Heavy weight. */
+  font-weight: 900;
+  /* Letter spacing. */
+  letter-spacing: 1px;
+  /* Secondary color. */
+  color: var(--clr-secondary);
+  /* Text selection. */
+  user-select: text;
+}
+
+/* Price buy section button - Purchase button. */
+.price-buy-section button {
+  /* Padding. */
+  padding: 18px 56px;
+  /* Font size. */
+  font-size: 1.2rem;
+  /* Heavy weight. */
+  font-weight: 800;
+  /* Cursor pointer. */
+  cursor: pointer;
+  /* Gradient background. */
+  background: linear-gradient(135deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Rounded corners. */
+  border-radius: 45px;
+  /* White text. */
+  color: white;
+  /* No border. */
+  border: none;
+  /* Letter spacing. */
+  letter-spacing: 1.3px;
+  /* Glow shadows. */
+  box-shadow: 0 0 40px var(--clr-neon-blue), 0 0 80px var(--clr-neon-purple);
+  /* Smooth transitions. */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Blur filter. */
+  backdrop-filter: var(--blur-medium);
+  /* Border. */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  /* Relative positioning. */
+  position: relative;
+  /* Hidden overflow. */
+  overflow: hidden;
+}
+
+/* Pseudo-element for price button shine - Animated highlight. */
+.price-buy-section button::before {
+  /* Shine content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Shine gradient. */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  /* Transition. */
+  transition: left 0.6s;
+}
+
+/* Price button hover state - Enhanced effects. */
+.price-buy-section button:hover {
+  /* Reversed gradient. */
+  background: linear-gradient(135deg, var(--clr-neon-purple), var(--clr-neon-blue));
+  /* Intensified shadows. */
+  box-shadow: 0 0 50px var(--clr-neon-purple), 0 0 100px var(--clr-neon-blue);
+  /* Scale and translate. */
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* Price button hover shine trigger. */
+.price-buy-section button:hover::before {
+  left: 100%;
+}
+
+/* Price button focus state - Outline for accessibility. */
+.price-buy-section button:focus {
+  outline: none;
+  box-shadow: 0 0 48px var(--clr-secondary), 0 0 20px var(--clr-accent);
+}
+
+/* Product info label - Form label. */
+.product-info label {
+  /* Bold weight. */
+  font-weight: 600;
+  /* Font size. */
+  font-size: 1rem;
+  /* Specific color. */
+  color: #c4d8ff;
+}
+
+/* Similar products container - Related items. */
+.similar-products {
+  /* Flexbox layout. */
+  display: flex;
+  /* Spacing. */
+  gap: 36px;
+  /* Centering. */
+  justify-content: center;
+  /* Top margin. */
+  margin-top: 50px;
+}
+
+/* Footer - Bottom section. */
+.footer {
+  /* Center alignment. */
+  text-align: center;
+  /* Bold weight. */
+  font-weight: 700;
+  /* Muted color. */
+  color: var(--clr-text-muted);
+  /* Bottom margin. */
+  margin-bottom: 40px;
+  /* Font size. */
+  font-size: 1.3rem;
+  /* No selection. */
+  user-select: none;
+  /* Text shadow. */
+  text-shadow: 0 0 15px var(--clr-neon-blue);
+  /* Gradient background. */
+  background: linear-gradient(45deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Clipping to text. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scrollbar - Custom scrollbar styling. */
+::-webkit-scrollbar {
+  /* Width. */
+  width: 10px;
+}
+
+/* Scrollbar track - Background. */
+::-webkit-scrollbar-track {
+  /* Background color. */
+  background: var(--clr-bg);
+}
+
+/* Scrollbar thumb - Handle. */
+::-webkit-scrollbar-thumb {
+  /* Gradient background. */
+  background: linear-gradient(180deg, var(--clr-neon-blue), var(--clr-neon-purple));
+  /* Rounded corners. */
+  border-radius: 10px;
+  /* Glow shadows. */
+  box-shadow: 0 0 10px var(--clr-neon-blue), 0 0 20px var(--clr-neon-purple);
+}
+
+/* Particle System - Animated background particles. */
+.particles {
+  /* Fixed positioning. */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* No interaction. */
+  pointer-events: none;
+  /* High z-index. */
+  z-index: 1;
+}
+
+/* Particle - Individual particle. */
+.particle {
+  /* Absolute positioning. */
+  position: absolute;
+  /* Radial gradient. */
+  background: radial-gradient(circle, var(--clr-neon-blue) 0%, transparent 70%);
+  /* Circular shape. */
+  border-radius: 50%;
+  /* Float animation. */
+  animation: float 20s infinite linear;
+}
+
+/* Alternate particle colors. */
+.particle:nth-child(2n) {
+  /* Purple gradient. */
+  background: radial-gradient(circle, var(--clr-neon-purple) 0%, transparent 70%);
+  /* Longer duration. */
+  animation-duration: 25s;
+  /* Delay. */
+  animation-delay: -5s;
+}
+
+.particle:nth-child(3n) {
+  /* Blue gradient. */
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.6) 0%, transparent 70%);
+  /* Even longer duration. */
+  animation-duration: 30s;
+  /* Delay. */
+  animation-delay: -10s;
+}
+
+/* Keyframe for float animation - Vertical movement. */
+@keyframes float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Depth of Field Effects - Blur overlay. */
+.depth-layer {
+  /* Relative positioning. */
+  position: relative;
+}
+
+/* Pseudo-element for depth layer - Radial blur. */
+.depth-layer::after {
+  /* Blur content. */
+  content: '';
+  /* Absolute positioning. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Radial gradient. */
+  background: radial-gradient(circle at center,
+    transparent 30%,
+    rgba(15, 15, 35, 0.1) 70%,
+    rgba(15, 15, 35, 0.3) 100%);
+  /* No interaction. */
+  pointer-events: none;
+  /* High z-index. */
+  z-index: 2;
+}
+
+/* Focus Indicators - Accessibility outlines. */
+button:focus-visible,
+.icon-btn:focus-visible,
+input:focus-visible {
+  /* Neon outline. */
+  outline: 2px solid var(--clr-neon-blue);
+  /* Offset. */
+  outline-offset: 2px;
+  /* Glow shadow. */
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.3);
+}
+
+/* Advanced Animations - Glow pulse. */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--clr-neon-blue), 0 0 40px var(--clr-neon-purple);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--clr-neon-blue), 0 0 60px var(--clr-neon-purple);
+  }
+}
+
+/* Glow animation class - Apply to elements. */
+.glow-animation {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Responsive Fluid Layouts - Large screens. */
+@media (max-width: 1200px) {
+  .app {
+    padding: 0 20px;
+  }
+
+  .hero {
+    margin: 20px;
+    padding: 40px 30px;
+  }
+
+  .nav {
+    padding: 0 30px;
+  }
+}
+
+/* Medium screens. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .hero-image {
+    width: 400px;
+    height: 250px;
+  }
+}
+
+/* Responsive - Smaller screens. */
+@media (max-width: 1100px) {
+  .hero {
+    flex-direction: column;
+    padding: 42px 36px;
+  }
+  .hero-image {
+    width: 280px;
+    height: 200px;
+    margin: 28px auto 0 auto;
+  }
+  .featured-games {
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  }
+  .product-main {
+    flex-direction: column;
+  }
+  .product-main-image {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 28px;
+  }
+  .similar-products {
+    flex-direction: column;
+    gap: 22px;
+  }
+}
+
+/* Mobile screens. */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+  .nav-links {
+    display: none;
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-buttons button {
+    width: 100%;
+    max-width: 300px;
+  }
+  .news-images {
+    flex-direction: column;
+    align-items: center;
+  }
+  .news-images img {
+    width: 200px;
+    height: 150px;
+  }
+  .bottom-games {
+    flex-direction: column;
+    align-items: center;
+  }
+  .bottom-game {
+    width: 200px;
+  }
+}
+
+/* Small mobile screens. */
+@media (max-width: 650px) {
+  .nav {
+    padding: 0 20px;
+  }
+  .logo {
+    font-size: 2rem;
+  }
+  .hero {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+  .hero h1 {
+    font-size: 3rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .news {
+    margin: 0 20px 40px 20px;
+    padding: 30px 20px;
+  }
+  .store {
+    margin: 0 20px 60px 20px;
+  }
+  .product-description {
+    margin: 0 20px 50px;
+    padding: 30px 20px;
+  }
+  .featured-game {
+    margin: 0 auto;
+  }
+  .bottom-games {
+    justify-content: center;
+  }
+}
